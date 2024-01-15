@@ -14,10 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <GoogleOAuthProvider clientId={process.env.CLIENT_ID}>
-        <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <GoogleOAuthProvider clientId={process.env.CLIENT_ID}>
+          {children}
+        </GoogleOAuthProvider>
         <ToastContainer />
-      </GoogleOAuthProvider>
+      </body>
     </html>
   );
 }
