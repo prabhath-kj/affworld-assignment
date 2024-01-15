@@ -26,3 +26,66 @@ export const register = async (req, res, next) => {
     next(error);
   }
 };
+
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user || !(await user.comparePassword(password))) {
+      throw new CustomError("Invalid credentials", 401);
+    }
+
+    const token = await generateAuthToken(user);
+
+    // Set the token in the browser cookie
+    return res.json({ message: "Successfully logged in", user, token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const googleLogin = async (req, res, next) => {
+  try {
+    // If the user is not authenticated, return an error
+    const {username,email,googleId} =req.body
+
+    if (!req.body) {
+      throw new CustomError("Invalid Google token", 401);
+    }
+
+    // Check if the user with the given Google ID already exists
+    const existingUser = await User.findOne({ googleId: req.user.googleId });
+
+    if (existingUser) {
+      if (await user.comparePassword(googleId)) {
+        // User with the provided Google ID already exists, mark as logged in
+        const token = await generateAuthToken(existingUser);
+        return res.json({
+          message: "Successfully logged in with Google",
+          user: existingUser,
+          token,
+        });
+      }
+       throw new Error ("Invalid Google token",401)
+    }
+
+    // If the user doesn't exist, create a new user
+    const newUser = new User({
+      username: username || "GoogleUser",
+      email: req.user.email,
+      password: googleId,
+    });
+
+    const user = await newUser.save();
+    const token = await generateAuthToken(user);
+
+    res.json({
+      message: "Successfully registered and logged in with Google",
+      user,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
