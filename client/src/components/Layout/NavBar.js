@@ -37,11 +37,11 @@ const Navbar = () => {
           )}
         </div>
         <div className="menu hidden md:block lg:block md:w-auto" id="navBar">
-          <ul className="flex  md:flex-row md:space-x-0">
+          <ul className="flex  md:flex-row md:space-x-0 cursor-pointer">
             {/* {titles.map((title, index) => {
               return <li key={index}>{NavLink(title)}</li>;
             })} */}
-            <li key={""} className="cursor-pointer" onClick={()=>console.log(googleLogout())}>Logout</li>
+            <li  onClick={()=>console.log(googleLogout())}>Logout</li>
           </ul>
         </div>
       </div>
