@@ -4,6 +4,8 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import authApi from "@/services/authServices";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -29,10 +31,16 @@ const LoginForm = () => {
       setSubmitting(false);
     }
   };
- const handleGoogleSignIn=(credentialResponse)=>{
-    const token =credentialResponse?.credential
-    console.log(token)
- }
+  const handleGoogleSignIn = async (credentialResponse) => {
+    const token = credentialResponse?.credential;
+    const { name, email, sub } = await jwtDecode(token);
+     try {
+         const response =await authApi.googleLogin({username:name,email,password:sub})
+         console.log(response);
+     } catch (error) {
+       console.log(error);
+     }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">

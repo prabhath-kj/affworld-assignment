@@ -48,17 +48,19 @@ export const login = async (req, res, next) => {
 export const googleLogin = async (req, res, next) => {
   try {
     // If the user is not authenticated, return an error
-    const {username,email,googleId} =req.body
+    const {username,email,password} =req.body
 
     if (!req.body) {
       throw new CustomError("Invalid Google token", 401);
     }
 
     // Check if the user with the given Google ID already exists
-    const existingUser = await User.findOne({ googleId: req.user.googleId });
+    const existingUser = await User.findOne({
+      $or: [{ username }, { email }],
+    });
 
     if (existingUser) {
-      if (await user.comparePassword(googleId)) {
+      if (await existingUser.comparePassword(password)) {
         // User with the provided Google ID already exists, mark as logged in
         const token = await generateAuthToken(existingUser);
         return res.json({
@@ -73,8 +75,8 @@ export const googleLogin = async (req, res, next) => {
     // If the user doesn't exist, create a new user
     const newUser = new User({
       username: username || "GoogleUser",
-      email: req.user.email,
-      password: googleId,
+      email,
+      password,
     });
 
     const user = await newUser.save();
@@ -86,6 +88,7 @@ export const googleLogin = async (req, res, next) => {
       token,
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

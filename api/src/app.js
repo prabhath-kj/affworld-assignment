@@ -17,7 +17,7 @@ app.use(helmet()); // Use Helmet middleware for enhanced security headers
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
   })
 );
@@ -31,8 +31,9 @@ app.use("/api/auth",authRoutes)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({
+  res.json({
     status: 'error',
+    statusCode,
     message: err.message,
   });
 });
