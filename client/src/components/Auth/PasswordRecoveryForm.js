@@ -6,7 +6,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import authApi from "@/services/authServices";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router"; 
 
 
 const stepOneValidationSchema = Yup.object({
@@ -25,12 +24,7 @@ const stepTwoValidationSchema = Yup.object({
 
 const ForgotPassword = () => {
 
-  const { isFallback } = useRouter();
 
-  if (isFallback) {
-    return <h1>Fallback</h1>;
-  }
-  
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
 
