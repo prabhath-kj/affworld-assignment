@@ -7,5 +7,5 @@ const router =Router()
 router.post('/post-secret',authenticateJWT,postSecrets );
 
 // Get All Secrets
-router.get('/secrets',authenticateJWT,getAllSecrets);
+router.get('/get-all-secrets',authenticateJWT,getAllSecrets);
 export default router;

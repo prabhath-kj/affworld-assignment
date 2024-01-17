@@ -1,6 +1,9 @@
 import User from "../models/user.js";
 import CustomError from "../helpers/customError.js";
 import generateAuthToken from "../helpers/jwtHelper.js";
+import Token from "../models/token.js";
+import sendMail from "../services/mailService.js";
+import uuid4 from "uuid4";
 
 export const register = async (req, res, next) => {
   try {
@@ -48,7 +51,7 @@ export const login = async (req, res, next) => {
 export const googleLogin = async (req, res, next) => {
   try {
     // If the user is not authenticated, return an error
-    const {username,email,password} =req.body
+    const { username, email, password } = req.body;
 
     if (!req.body) {
       throw new CustomError("Invalid Google token", 401);
@@ -69,7 +72,7 @@ export const googleLogin = async (req, res, next) => {
           token,
         });
       }
-       throw new Error ("Invalid Google token",401)
+      throw new Error("Invalid Google token", 401);
     }
 
     // If the user doesn't exist, create a new user
@@ -89,6 +92,62 @@ export const googleLogin = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+};
+
+export const generateOtp = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new CustomError("You are new,please signup first", 400);
+    }
+
+    const generateOTP = uuid4();
+
+    const newToken = new Token({
+      userId: user?._id,
+      token: generateOTP,
+    });
+
+    await newToken.save();
+
+    sendMail(email, "Reset Paassword", generateOTP);
+
+    res.status(200).json({ message: "Otp successfully sended" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { otp, password, email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new CustomError("No users found", 404);
+    }
+
+    const token = await Token.findOne({ userId: user._id });
+
+    if (token && token.token === otp) {
+      await User.findByIdAndUpdate(
+        user._id,
+        { password: password },
+        { new: true }
+      );
+
+      await Token.findByIdAndDelete(token._id);
+
+      return res.status(200).json({ message: "Password reset successful" });
+    } else {
+      throw new CustomError("Invalid OTP", 404);
+    }
+  } catch (error) {
+    console.error(error);
     next(error);
   }
 };

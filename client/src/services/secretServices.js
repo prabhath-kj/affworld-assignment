@@ -3,7 +3,7 @@ import instance from "./apiInstance";
 const secretApi = {
   postSecret: async (payload) => {
     try {
-      const response = await instance.post("/post-secret", payload);
+      const response = await instance.post("/secrets/post-secret", payload);
       return response.data;
     } catch (error) {
       throw error?.response?.data?.message;
@@ -11,7 +11,7 @@ const secretApi = {
   },
   getAllSecrets: async () => {
     try {
-      const response = await instance.get("/get-all-secrets");
+      const response = await instance.get("/secrets/get-all-secrets");
       return response.data;
     } catch (error) {
       // Handle error, e.g., show an error message to the user

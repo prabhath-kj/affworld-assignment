@@ -1,4 +1,5 @@
 import Secret from "../models/secret.js";
+import CustomError from "../helpers/customError.js"
 
 
 // Function to post secrets
@@ -17,7 +18,7 @@ export const postSecrets = async (req, res, next) => {
             throw new CustomError('Secret message is too long.', 400);
         }
 
-        // Check if the user has already posted a secret
+        // // Check if the user has already posted a secret
         const existingSecret = await Secret.findOne({ userId });
 
         if (existingSecret) {
@@ -32,11 +33,11 @@ export const postSecrets = async (req, res, next) => {
 
         await newSecret.save();
 
-        // Automatically delete the secret after 5 seconds
-        setTimeout(async () => {
-            await Secret.findByIdAndDelete(newSecret._id);
-            console.log(`Secret with ID ${newSecret._id} deleted.`);
-        }, 5000);
+        // // Automatically delete the secret after 5 seconds
+        // setTimeout(async () => {
+        //     await Secret.findByIdAndDelete(newSecret._id);
+        //     console.log(`Secret with ID ${newSecret._id} deleted.`);
+        // }, 5000);
 
         res.status(201).json({ message: 'Secret posted successfully.' });
     } catch (error) {

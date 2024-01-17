@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login, googleLogin } from "../controllers/auth.js";
+import { register, login, googleLogin,generateOtp,verifyOtp } from "../controllers/auth.js";
 const router = Router();
 
 //user registration
@@ -10,5 +10,14 @@ router.post("/login", login);
 
 //google signup and login
 router.post("/google-login", googleLogin);
+
+
+//generate otp
+router.post("/forgot-password",generateOtp)
+
+//verify otp
+
+router.post("/verify-otp",verifyOtp)
+
 
 export default router;
