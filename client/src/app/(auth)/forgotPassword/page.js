@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import ForgotPassword from "@/components/Auth/PasswordRecoveryForm";
 
-const ForgotPassword = () => {
+const page = () => {
+
+
   return (
     <div>
-      ForgotPassword
+      <ForgotPassword />
     </div>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default page;

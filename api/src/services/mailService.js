@@ -23,8 +23,7 @@ const sendMail = async (email, subject, text) => {
       text: text,
     });
   } catch (err) {
-    console.log(err);
-    next(err)
+    throw err
   }
 };
 

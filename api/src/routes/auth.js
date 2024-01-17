@@ -17,7 +17,7 @@ router.post("/forgot-password",generateOtp)
 
 //verify otp
 
-router.post("/verify-otp",verifyOtp)
+router.post("/verify-password",verifyOtp)
 
 
 export default router;

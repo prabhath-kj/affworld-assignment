@@ -28,6 +28,24 @@ const authApi = {
       throw error?.response?.data?.message;
     }
   },
+
+  recoverPassword: async (credential) => {
+    try {
+      const response = await instance.post("auth/forgot-password", credential);
+      return response.data;
+    } catch (error) {
+      throw error?.response?.data?.message;
+    }
+  },
+
+  verifyPassword: async (credential) => {
+    try {
+      const response = await instance.post("auth/verify-password", credential);
+      return response.data;
+    } catch (error) {
+      throw error?.response?.data?.message;
+    }
+  },
 };
 
 export default authApi;
