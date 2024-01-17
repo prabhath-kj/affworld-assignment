@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.js"
 
-export default authenticateJWT = async (req, res, next) => {
+const authenticateJWT = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -17,3 +17,4 @@ export default authenticateJWT = async (req, res, next) => {
     res.status(401).json({ error: "Please authenticate." });
   }
 };
+export default authenticateJWT

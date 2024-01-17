@@ -1,14 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const MobileOverLay = () => {
-    return (
-        <ul className="flex flex-col items-center py-4">
-           {/* {pages.map((title, index) => {
-             return <li key={index}>{NavLink(title)}</li>;
-           })} */}
-           <li key={""}>NavLink</li>
-         </ul>
- )
-}
+const MobileOverLay = ({handleLogout}) => {
+  return (
+    <ul className="flex flex-col items-center py-4 cursor-pointer">
+      <li onClick={handleLogout}>Logout</li>
+    </ul>
+  );
+};
 
-export default MobileOverLay
+export default MobileOverLay;

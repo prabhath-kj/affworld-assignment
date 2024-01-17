@@ -4,10 +4,18 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import MobileOverLay from "./MobileOverLay";
 import React from "react";
+import { setLogout } from "@/state/authSlice";
+import {useDispatch} from "react-redux"
 import { googleLogout } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
+
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
+  const dispatch =useDispatch()
+  const router =useRouter()
+
+
   const titles = [
     {
       title: "Pricing",
@@ -18,6 +26,12 @@ const Navbar = () => {
       path: "#teams",
     },
   ];
+
+
+  const handleLogout =()=>{
+    dispatch(setLogout())
+    googleLogout()
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-gray-100 opacity-100 shadow-md z-40">
@@ -41,11 +55,11 @@ const Navbar = () => {
             {/* {titles.map((title, index) => {
               return <li key={index}>{NavLink(title)}</li>;
             })} */}
-            <li  onClick={()=>console.log(googleLogout())}>Logout</li>
+            <li  onClick={handleLogout}>Logout</li>
           </ul>
         </div>
       </div>
-      <div>{isOpen && <MobileOverLay />}</div>
+      <div>{isOpen && <MobileOverLay handleLogout={handleLogout} />}</div>
     </nav>
   );
 };

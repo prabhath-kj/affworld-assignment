@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "@/state/authSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import authApi from "@/services/authServices";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Name is required"),
@@ -16,9 +20,32 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegistrationForm = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push("/");
+    }
+  }, [isAuth]);
+
   const handleSubmit = async (values, { setSubmitting }) => {
-    toast.success(JSON.stringify(values))
-    console.log(values);
+    try {
+      setSubmitting(true);
+      const { user, token, message } = await authApi.register(values);
+      dispatch(
+        setLogin({
+          user,
+          token,
+        })
+      );
+      toast.success(message);
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -122,9 +149,12 @@ const RegistrationForm = () => {
                 </button>
               </div>
               <div>
-                <div className="flex justify-end mt-1">
-                Have an account?
-                  <Link className="px-1 font-medium cursor-pointer hover:font-bold text-blue-500" href="/login">
+                <div className="flex  text-sm justify-end mt-1">
+                  Have an account?
+                  <Link
+                    className="px-1 font-medium cursor-pointer hover:font-bold text-blue-500"
+                    href="/login"
+                  >
                     Login
                   </Link>
                 </div>

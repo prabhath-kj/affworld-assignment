@@ -1,9 +1,22 @@
-import React from "react";
+"use client"
+import React ,{useEffect} from "react";
 import Navbar from "@/components/Layout/NavBar";
 import PostSecret from "@/components/Secrets/PostSecretForm";
 import SecretsList from "@/components/Secrets/SecretsList";
+import { useRouter } from "next/navigation";
+import {useSelector} from "react-redux"
 
 const HomePage = () => {
+
+  const router = useRouter();
+  const isAuth = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if(!isAuth){
+      router.push("/login");
+    }
+  }, [isAuth]);
+
   return (
     <>
       <Navbar />

@@ -6,25 +6,26 @@ const authApi = {
       const response = await instance.post("auth/login", credentials);
       return response.data;
     } catch (error) {
-      return error;
+      throw error?.response?.data?.message;
     }
   },
 
   googleLogin: async (credentials) => {
     try {
-      const response = await instance.post("auth/googleLogin", credentials);
+      const response = await instance.post("auth/google-login", credentials);
       return response.data;
     } catch (error) {
-      return error;
+
+      throw error?.response?.data?.message;
     }
   },
 
-  logout: async () => {
+  register: async (credential) => {
     try {
-      const response = await instance.post("auth/logout");
+      const response = await instance.post("auth/register", credential);
       return response.data;
     } catch (error) {
-      throw error;
+      throw error?.response?.data?.message;
     }
   },
 };
