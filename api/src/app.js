@@ -18,7 +18,7 @@ app.use(helmet()); // Use Helmet middleware for enhanced security headers
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN,
+    origin:process.env.ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
   })
 );
