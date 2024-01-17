@@ -1,6 +1,6 @@
-# React.js Application - Affworld Technologies Internship Assignment
+# React.js Application - Affworld Technologies  Assignment
 
-Welcome to my submission for the Full Stack Developer Internship Assignment at Affworld Technologies. This React.js application demonstrates proficiency in key areas, including user authentication, data fetching, and responsive design.
+ This React.js application demonstrates proficiency in key areas, including user authentication, data fetching, and responsive design.
 
 ## Table of Contents
 
