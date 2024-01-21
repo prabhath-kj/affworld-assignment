@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@/state/authSlice";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({

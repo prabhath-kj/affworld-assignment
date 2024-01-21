@@ -1,7 +1,7 @@
 import React from 'react'
 import RegistrationForm from '@/components/Auth/RegistrationForm'
 
-const SignUp = () => {
+const page = () => {
   return (
     <div>
     <RegistrationForm/>
@@ -9,4 +9,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default page

@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@/state/authSlice";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import authApi from "@/services/authServices";
 
 const validationSchema = Yup.object().shape({
